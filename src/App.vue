@@ -1,17 +1,16 @@
 <template>
   <v-app>
-    <Drawer/>
+    <!--<Drawer/>-->
+    <router-view/>
   </v-app>
 </template>
 
 <script>
-import Drawer from "./components/Drawer/Drawer";
 
-export default {
-  name: "App",
-  components: {
-    Drawer
-  },
+
+export default {    
+  name: 'App',
+  components:{},
   data() {
     return {
       //
