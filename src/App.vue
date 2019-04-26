@@ -15,6 +15,11 @@ export default {
     return {
       //
     };
+  },
+  beforeCreate(){   
+    this.$store.commit('login', user)
+    this.$router.push('/panel')
+
   }
 };
 </script>

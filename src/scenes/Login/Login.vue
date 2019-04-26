@@ -8,13 +8,13 @@
       ></login-form>
     </base-login>
     <v-footer dark absolute>               
-      <v-card class="flex" flat tile >
+      <v-card class="flex rounded-card" flat tile >
         <v-card-text class="blue lighten-1">
             <p class="text-xs-center">¿Qué es Medicapp?</p>
         </v-card-text>
         <v-card-actions class="grey darken-3 justify-center">
-          &copy;2019 —
-          <strong>e-sol</strong>
+          &copy;2019 — 
+          <strong>&nbsp;e-sol</strong>
         </v-card-actions>
       </v-card>
     </v-footer>
@@ -28,6 +28,9 @@ export default {
   components: { BaseLogin, LoginForm }
 };
 </script>
-
 <style>
+.rounded-card{
+  border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
 </style>

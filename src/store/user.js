@@ -14,7 +14,9 @@ const store = {
     },
     actions:{
         login({commit}, credentials){
-            return signInWithEmailAndPassword(credentials.email, credentials.password); //promise
+            return new Promise((resolve, reject) =>{
+                resolve()
+            })
         },
         logOut({commit}){            
             return new Promise((resolve, reject) => {
