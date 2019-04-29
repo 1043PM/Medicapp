@@ -3,9 +3,10 @@ import Vue from "vue";
 
 Vue.use(VueRouter);
 
-import MedicReports from "./scenes/MedicReports/MedicReports.vue";
 import Login from "./scenes/Login/Login.vue";
 import Panel from "./scenes/Common/Common.vue";
+import Home from './scenes/Home/Home.vue';
+import MedicReports from "./scenes/MedicReports/MedicReports.vue";
 
 const routes = [
   {
@@ -13,15 +14,15 @@ const routes = [
     component: Login
   },
   {
-    path: "/reports",
-    component: MedicReports
-  },
-  {
     path: "/panel",
     component: Panel,
     children: [
       {
-        path: "reports/:id",
+        path: "home",
+        component: Home
+      },
+      {
+        path: "reports",
         component: MedicReports
       }
     ]

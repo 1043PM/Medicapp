@@ -1,7 +1,7 @@
 <template>
   <div>
     <toolbar/>
-    <drawer/>
+    <Drawer/>
     <v-content>
       <v-container>
         <v-layout>

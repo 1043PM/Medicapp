@@ -42,12 +42,12 @@ export default {
       {
         title: "Home",
         icon: "home",
-        url: "/"
+        url: "/panel/home"
       },
       {
         title: "Registros médicos",
         icon: "assignment_ind",
-        url: "/reports"
+        url: "/panel/reports"
       }
     ],
     user: {
