@@ -7,6 +7,7 @@ import Login from "./scenes/Login/Login.vue";
 import Panel from "./scenes/Common/Common.vue";
 import Home from './scenes/Home/Home.vue';
 import MedicReports from "./scenes/MedicReports/MedicReports.vue";
+import CreateMedicReport from "./scenes/MedicReports/scenes/CreateMedicReport";
 
 const routes = [
   {
@@ -24,6 +25,10 @@ const routes = [
       {
         path: "reports",
         component: MedicReports
+      },
+      {
+        path: "createReport",
+        component: CreateMedicReport
       }
     ]
   }

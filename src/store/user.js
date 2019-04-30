@@ -38,6 +38,11 @@ const store = {
                     })
                 }).catch((error) => reject(error))
             })
+        },
+        createReport({commit}, newreport){
+            return new Promise((resolve, reject) =>{
+                resolve()
+            })
         }
     }
 }

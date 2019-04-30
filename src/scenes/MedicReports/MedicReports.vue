@@ -1,12 +1,24 @@
 <template>
   <div>
-    <h1>Registros médicos</h1>
-
+    <v-card-title>
+      <h1>Registros médicos</h1>
+      <v-spacer></v-spacer>
+      <v-btn fab dark color="cyan" to="/panel/createReport">
+        <v-icon dark>add</v-icon>
+      </v-btn>
+    </v-card-title>
     <v-card-title>
       <DeleteAllButton v-bind:selected="selected" v-bind:deleteAll="deleteAllReports"/>
       <DownloadAllButton v-bind:selected="selected" v-bind:downloadAll="downloadAllReports"/>
       <v-spacer></v-spacer>
-      <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details v-on:input="cleanSelected()"></v-text-field>
+      <v-text-field
+        v-model="search"
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+        v-on:input="cleanSelected()"
+      ></v-text-field>
     </v-card-title>
 
     <v-data-table
@@ -44,7 +56,12 @@
       </template>
     </v-data-table>
 
-    <v-snackbar v-model="snackbar.show" :color="snackbar.color" :timeout="snackbar.timeout" :top="'top'">
+    <v-snackbar
+      v-model="snackbar.show"
+      :color="snackbar.color"
+      :timeout="snackbar.timeout"
+      :top="'top'"
+    >
       {{ snackbar.text }}
       <v-btn flat @click="snackbar.show = false">Ok</v-btn>
     </v-snackbar>
@@ -56,7 +73,7 @@ import DeleteAllButton from "./components/DeleteAllButton";
 import DownloadAllButton from "./components/DownloadAllButton";
 import EditButton from "./components/EditButton";
 import DeleteButton from "./components/DeleteButton";
-import DownloadButton from './components/DownloadButton';
+import DownloadButton from "./components/DownloadButton";
 
 export default {
   components: {
@@ -104,23 +121,31 @@ export default {
     };
   },
   methods: {
-    cleanSelected(){ this.selected = []; },
+    cleanSelected() {
+      this.selected = [];
+    },
     deleteAllReports() {
       this.selected.forEach(selected => {
-        this.reports.splice(this.reports.findIndex(report => report.folio === selected.folio), 1);
+        this.reports.splice(
+          this.reports.findIndex(report => report.folio === selected.folio),
+          1
+        );
       });
-      this.snackbar.text = "Los reportes se borraron con éxito."
+      this.snackbar.text = "Los reportes se borraron con éxito.";
       this.snackbar.show = true;
     },
     deleteReport(folioToDelete) {
-      this.reports.splice(this.reports.findIndex(report => report.folio === folioToDelete), 1);
-      this.snackbar.text = "El reporte se borro con éxito."
+      this.reports.splice(
+        this.reports.findIndex(report => report.folio === folioToDelete),
+        1
+      );
+      this.snackbar.text = "El reporte se borro con éxito.";
       this.snackbar.show = true;
     },
-    downloadReport(report){
+    downloadReport(report) {
       //TODO: How to generate a report and download it.
     },
-    downloadAllReports(reports){
+    downloadAllReports(reports) {
       //TODO: How to generate all reports, maybe compress on a .zip and download it.
       console.log(reports);
     }

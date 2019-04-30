@@ -19,6 +19,16 @@ const mixinForm = {
             ],
             repitPasswordRules:[
                 (repitPassword) => this.password === repitPassword || 'Las contraseñas deben coincidir'
+            ],
+            rulesCustomer: [
+                (customer)=> customer.length > 0 || 'Debe elegir un cliente'   
+            ],
+            rulesHeight: [
+                height => height > 0 || 'Ingrese una altura',
+                height => height <= 300 || 'Altura fuera de rango',
+            ],
+            rulesBloodType:[
+                (bloodType)=> bloodType.length > 0 || 'Debe elegir un cliente'
             ]
         }
     },
