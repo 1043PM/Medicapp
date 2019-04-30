@@ -15,20 +15,21 @@
           @click:append="show = !show"
         ></v-text-field>
         <div class="my-2">
-            <router-link class="caption" to="/" >No tiene una cuenta?</router-link>                
+                 
         </div>
       </v-form>
     </v-card-text>
     <v-card-actions class="mr-5 ml-5">
-      <v-btn flat color="teal" :loading="loadingForm">Registrarse</v-btn>
+      <v-btn flat color="teal" :loading="loadingForm" @click="loginForm">Registrarse</v-btn>
       <v-spacer></v-spacer>
-      <v-btn color="blue lighten-1" class="white--text login"   :loading="loadingForm">Ingresar</v-btn>
+      <v-btn color="blue lighten-1" class="white--text login" @click="login" :loading="loadingForm">Ingresar</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import { mixinForm } from "../../../mixins";
+import bus from '../../../bus';
 export default {
   props: ["title", "error", "text"],
   mixins: [mixinForm],
@@ -50,7 +51,10 @@ export default {
             this.loadingForm = false
             this.error = error
         })
-      }
+      },
+      loginForm(){
+            bus.$emit('loginForm')
+        }
   }
 };
 </script>

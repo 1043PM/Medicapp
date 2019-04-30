@@ -17,7 +17,7 @@ const mixinForm = {
             passwordRules: [
                 (password) => password.length >= 8 || 'Debe ingresar una contraseña mayor o igual que 8 caracteres'
             ],
-            reglasrepitPassword:[
+            repitPasswordRules:[
                 (repitPassword) => this.password === repitPassword || 'Las contraseñas deben coincidir'
             ]
         }
