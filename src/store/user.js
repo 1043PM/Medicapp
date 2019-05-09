@@ -1,4 +1,4 @@
-import { Promise } from 'q';
+import { Promise } from "q";
 const store = {
   state: {
     user: null
@@ -15,7 +15,17 @@ const store = {
   },
   actions: {
     async login({ commit }, credentials) {
-      let response = await fetch(`https://api-medicapp.herokuapp.com/auth`);
+      let body = {
+        email: credentials.email,
+        password: credentials.password
+      };
+      let response = await fetch(`https://api-medicapp.herokuapp.com/auth/sign_in`, {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
       let data = await response.json();
       return data;
     },
@@ -37,18 +47,15 @@ const store = {
         password: newUser.password,
         password_confirmation: newUser.password_confirmation
       };
-      let response = await fetch(
-        `https://api-medicapp.herokuapp.com/auth`,
-        {
-          method: "POST",
-          body: JSON.stringify(body), 
-          headers: {
-            "Content-Type": "application/json"
-          }
+      let response = await fetch(`https://api-medicapp.herokuapp.com/auth`, {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json"
         }
-      );
+      });
       let data = await response.json();
-      return data;         
+      return data;
     },
     createReport({ commit }, newreport) {
       return new Promise((resolve, reject) => {

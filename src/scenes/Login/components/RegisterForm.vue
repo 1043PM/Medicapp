@@ -55,7 +55,9 @@ export default {
         'password_confirmation' : this.passwordRep,
         'nickname' : this.nickname,
       }).then((user) => {
-          this.loadingForm = false;                    
+          this.loadingForm = false;      
+          console.log(user);          
+          this.loginForm();                        
         })
         .catch(error => {
           this.loadingForm = false;
