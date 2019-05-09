@@ -61,6 +61,13 @@ export default {
     logout() {}
   },
   beforeMount() {
+    let user = this.$store.getters.getUser
+
+  console.log(user[0]);
+
+    this.user.name = user[0].name;
+    this.user.email = user[0].email;
+
     bus.$on("notificationDrawer", () => {
       this.drawer = !this.drawer;
     });

@@ -47,7 +47,7 @@ export default {
             password: this.password
         }).then((user) =>{
             this.loadingForm = false
-            this.$store.commit('login', user)  
+            this.$store.commit('login', user.data)  
             this.$router.push('/panel')          
         }).catch((error)=>{
             this.loadingForm = false
