@@ -47,7 +47,11 @@ export default {
             password: this.password
         }).then((user) =>{
             this.loadingForm = false
-            this.$store.commit('login', user.data)  
+
+            console.log(user.headers.get('Content-Type'));
+            console.log(user.headers.get('Client'));
+
+            this.$store.commit('login', user.json().data)  
             this.$router.push('/panel')          
         }).catch((error)=>{
             this.loadingForm = false

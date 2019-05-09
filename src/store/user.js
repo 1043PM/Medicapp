@@ -47,7 +47,7 @@ const store = {
           }
         }
       );
-      let data = await response.json();
+      let data = await response;
       return data;
     },
     logOut({ commit }) {
@@ -78,19 +78,17 @@ const store = {
       let data = await response.json();
       return data;
     },
-    async getReports({ commit }, user, headers) {
-      let body = {
-        name: newUser.fullname,
-        nickname: newUser.nickname,
-        email: newUser.email,
-        password: newUser.password,
-        password_confirmation: newUser.password_confirmation
-      };
-      let response = await fetch(`https://api-medicapp.herokuapp.com/auth`, {
-        method: "POST",
-        body: JSON.stringify(body),
+    async getReports({ commit }) {
+      console.log("hola")
+      let response = await fetch(`https://api-medicapp.herokuapp.com//doctors/8`, {
+        method: "GET",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Access-Token": "cZ_5lhpClGl_rL7Ke4ALew",
+          "Token-Type": "Bearer",
+          'Client': "iP7srBZ_j7TfUWMp8pF75g",
+          'Expiry': 1558644369,
+          'Uid': "marcostarr1940@gmail.com"
         }
       });
       let data = await response.json();

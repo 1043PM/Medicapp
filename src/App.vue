@@ -18,9 +18,7 @@ export default {
   },
   beforeCreate(){   
 
-    let user = this.$store.getters.getUser
-
-    this.$store.commit('login', user[0])
+    this.$store.commit('login', user)
     this.$router.push('/panel')
 
   }
