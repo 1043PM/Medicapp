@@ -5,7 +5,8 @@
       {{text}}
       <v-alert color="red" v-show="Boolean(error)">{{error}}</v-alert>
       <v-form v-model="valid" class="form">
-        <v-text-field v-model="fullName" label="Nombre completo" :rules="rulesName"></v-text-field>
+        <v-text-field v-model="fullname" label="Nombre completo" :rules="rulesName"></v-text-field>
+        <v-text-field v-model="nickname" label="Nickname" ></v-text-field>
         <v-text-field v-model="email" label="Email" :rules="emailRules"></v-text-field>
         <v-text-field v-model="password" label="contraseña" :rules="passwordRules" type="password"></v-text-field>
         <v-text-field
@@ -38,21 +39,23 @@ export default {
   mixins: [mixinForm],
   data() {
     return {
-      fullName: "",
-      passwordRep: ""
+      fullname: "",
+      passwordRep: "",
+      nickname: ""
     };
   },
   methods: {
-    createUser() {
-      let newUser = {};
-      this.loadingForm = true;
-      newUser.fullName = this.fullName;
-      newUser.password = this.password;
-      newUser.email = this.email;
-      this.$store
-        .dispatch("createUser", newUser)
-        .then(user => {
-          this.loadingForm = false;
+    createUser() {      
+      this.loadingForm = true;      
+
+      this.$store.dispatch('createUser', {
+        'fullname' : this.fullname,
+        'password' : this.password,
+        'email' : this.email,
+        'password_confirmation' : this.passwordRep,
+        'nickname' : this.nickname,
+      }).then((user) => {
+          this.loadingForm = false;                    
         })
         .catch(error => {
           this.loadingForm = false;
