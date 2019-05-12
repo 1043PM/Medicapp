@@ -2,7 +2,7 @@
   <v-navigation-drawer v-model="drawer" fixed app>
     <div class="profile">
       <div>
-        <img :src="user.photo">
+        <img :src="user.image">
       </div>
       <div>
         <span>{{user.email}}</span>
@@ -34,16 +34,11 @@
 
 
 <script>
-import bus from '../../bus';
+import bus from "../../bus";
 export default {
   data: () => ({
     drawer: false,
     options: [
-      {
-        title: "Home",
-        icon: "home",
-        url: "/panel/home"
-      },
       {
         title: "Registros médicos",
         icon: "assignment_ind",
@@ -53,8 +48,8 @@ export default {
     user: {
       name: "Alex",
       email: "Alex@gmail.com",
-      photo:
-        "https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg-1200x1200.jpg"
+      image:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/220px-User_icon_2.svg.png"
     }
   }),
   methods: {
@@ -63,6 +58,17 @@ export default {
   beforeMount() {
     bus.$on("notificationDrawer", () => {
       this.drawer = !this.drawer;
+    });
+  },
+  mounted() {
+    this.user = this.$store.getters.getUser;
+
+    this.user.image =
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/220px-User_icon_2.svg.png";
+
+    bus.$on("updateDrawerLogin", user => {
+      console.log(user);
+      this.user = user;
     });
   }
 };

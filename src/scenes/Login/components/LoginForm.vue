@@ -45,10 +45,15 @@ export default {
         this.$store.dispatch('login',{
             email: this.email,
             password: this.password
-        }).then((user) =>{
+        }).then((response) =>{
             this.loadingForm = false
-            this.$store.commit('login', user)  
-            this.$router.push('/panel')          
+
+            this.$store.commit('login', response)
+
+            bus.$emit("updateDrawerLogin", response.data.data)
+            this.$router.push('/panel')  
+            
+               
         }).catch((error)=>{
             this.loadingForm = false
             this.error = error

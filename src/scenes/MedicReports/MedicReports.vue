@@ -26,7 +26,7 @@
       :headers="headers"
       :items="reports"
       :search="search"
-      item-key="folio"
+      item-key="id"
       select-all
       class="elevation-1"
     >
@@ -34,14 +34,14 @@
         <td>
           <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
         </td>
-        <td>{{ props.item.folio }}</td>
+        <td>{{ props.item.id }}</td>
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.date }}</td>
         <td>
-          <EditButton v-bind:folio="props.item.folio"/>
+          <EditButton v-bind:folio="props.item.id"/>
         </td>
         <td>
-          <DeleteButton v-bind:folio="props.item.folio" v-bind:onDelete="deleteReport"/>
+          <DeleteButton v-bind:folio="props.item.id" v-bind:onDelete="deleteReport"/>
         </td>
         <td>
           <DownloadButton v-bind:report="props.item" v-bind:downloadReport="downloadReport"/>
@@ -88,7 +88,7 @@ export default {
       search: "",
       selected: [],
       headers: [
-        { text: "Folio", value: "folio" },
+        { text: "ID", value: "id" },
         { text: "Nombre", value: "name" },
         { text: "Fecha", value: "date" },
         { text: "Editar", sortable: false },
@@ -119,6 +119,22 @@ export default {
         text: ""
       }
     };
+  },
+  beforeMount() {
+    let user = this.$store.getters.getUser;
+
+    this.$store
+      .dispatch("getReports")
+      .then(reports => {
+
+        console.log(reports);
+
+        this.reports = reports;
+
+      })
+      .catch(error => {
+        this.error = error;
+      });
   },
   methods: {
     cleanSelected() {

@@ -6,20 +6,22 @@
 </template>
 
 <script>
-
-
-export default {    
-  name: 'App',
-  components:{},
+export default {
+  name: "App",
+  components: {},
   data() {
     return {
       //
     };
   },
-  beforeCreate(){   
-    this.$store.commit('login', user)
-    this.$router.push('/panel')
+  beforeCreate() {
+    let user = this.$store.getters.getUser;
 
+    if (user != null) {
+      this.$router.push({ path: "/panel" });
+    } else {
+      this.$router.push({ path: "/" });
+    }
   }
 };
 </script>
