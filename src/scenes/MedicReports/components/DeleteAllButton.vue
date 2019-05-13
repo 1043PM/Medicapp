@@ -5,7 +5,7 @@
         <v-btn v-show="selected.length >= 1" color="warning" v-on="on">Borrar seleccionados</v-btn>
       </template>
       <v-card>
-        <v-card-title class="headline">¿Esta usted seguro que quiere borrar todos los registros?</v-card-title>
+        <v-card-title class="headline">¿Esta usted seguro que quiere borrar todos los registros seleccionados?</v-card-title>
         <v-card-text>Esta acción no podrá ser revertida.</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>

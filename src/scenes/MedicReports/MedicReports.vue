@@ -121,14 +121,29 @@ export default {
       this.selected = [];
     },
     deleteAllReports() {
-      this.selected.forEach(selected => {
-        this.reports.splice(
-          this.reports.findIndex(report => report.id === selected.id),
-          1
-        );
+      let reportsDeletedCount = 0;
+
+      this.selected.forEach(element => {
+        this.$store
+          .dispatch("deleteReport", element.id)
+          .then(response => {
+            reportsDeletedCount++;
+
+            if (reportsDeletedCount === this.selected.length) {
+              this.selected.forEach(selected => {
+                this.reports.splice(
+                  this.reports.findIndex(report => report.id === selected.id),
+                  1
+                );
+              });
+              this.snackbar.text = "Los reportes se borraron con éxito.";
+              this.snackbar.show = true;
+            }
+          })
+          .catch(error => {
+            this.error = error;
+          });
       });
-      this.snackbar.text = "Los reportes se borraron con éxito.";
-      this.snackbar.show = true;
     },
     deleteReport(idToDelete) {
       this.$store
