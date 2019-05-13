@@ -53,8 +53,8 @@ const store = {
       let headers = {
         "access-token": headersAux["Access-Token"],
         "token-type": headersAux["Token-Type"],
-        "client": headersAux["Client"],
-        "uid": headersAux["Uid"]
+        client: headersAux["Client"],
+        uid: headersAux["Uid"]
       };
       /*
       console.log(headers);
@@ -97,10 +97,19 @@ const store = {
       let data = await response;
       return data;
     },
-    createReport({ commit }, newreport) {
-      return new Promise((resolve, reject) => {
-        resolve();
-      });
+    async createReport({ commit }, newReport) {
+      let headers = this.getters.getHeaders;
+
+      headers["Content-type"] = "application/json";
+
+      let response = await axios.post(
+        "https://api-medicapp.herokuapp.com/reports",
+        newReport,
+        headers
+      );
+
+      let data = await response;
+      return data;
     }
   }
 };

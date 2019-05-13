@@ -10,7 +10,7 @@
       <v-form v-model="valid">
         <v-select :items="customers" v-model="customer" label="Cliente" :rules="rulesCustomer"></v-select>
 
-        <v-text-field v-model="fullName" label="Nombre del paciente" :rules="rulesName"></v-text-field>
+        <v-text-field v-model="reportName" label="Nombre del reporte" :rules="rulesName"></v-text-field>
 
         <p>Género</p>
         <v-radio-group v-model="gender">
@@ -35,6 +35,24 @@
           </v-flex>
           <v-flex xs3>
             <v-text-field v-model="height" class="mt-4 ml-3" type="number"></v-text-field>
+          </v-flex>
+        </v-layout>
+
+        <v-layout row wrap>
+          <v-flex xs9>
+            <v-slider
+              class="mt-5"
+              v-model="weight"
+              :rules="rulesWeight"
+              label="Peso en kilogramos"
+              :max="250"
+              :min="0"
+              step="1"
+              thumb-label="always"
+            ></v-slider>
+          </v-flex>
+          <v-flex xs3>
+            <v-text-field v-model="weight" class="mt-4 ml-3" type="number"></v-text-field>
           </v-flex>
         </v-layout>
 
@@ -71,29 +89,45 @@ export default {
       text: "Ingrese los siguientes campos",
       customers: ["Cliente A", "Cliente B", "Cliente C"],
       customer: "",
-      fullName: "",
+      reportName: "",
       genders: ["Masculino", "Femenino"],
       gender: "Masculino",
       birthdate: new Date().toISOString().substr(0, 10),
       height: 0,
+      weight: 0,
       BloodTypes: ["AB+", "AB-", "A+", "A-", "B+", "B-", "O+", "O-"],
-      bloodType: ""
+      bloodType: "",
+      user: null
     };
+  },
+  beforeMount(){
+    this.user = this.$store.getters.getUser;
   },
   methods: {
     createUser() {
-      let newReport = {};
+      let newReport = {
+        name: this.reportName,
+        date: new Date().toISOString().substr(0, 10),
+        created_by: this.user.name,
+        gender: this.gender,
+        birthdate: this.birthdate,
+        height: this.height,
+        weight: this.weight,
+        bloodtype: this.bloodType,
+        pacient_id: "1"
+      };
+
+      console.log(newReport);
+
       this.loadingForm = true;
-      newReport.customer = this.customer;
-      newReport.fullName = this.fullName;
-      newReport.gender = this.gender;
-      newReport.birthdate = this.birthdate;
-      newReport.height = this.height;
-      newReport.bloodType = this.bloodType;
       this.$store
         .dispatch("createReport", newReport)
-        .then(report => {
+        .then((response) => {
           this.loadingForm = false;
+          console.log(response);
+
+          this.$router.push('/panel/reports')
+
         })
         .catch(error => {
           this.loadingForm = false;

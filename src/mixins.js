@@ -27,6 +27,10 @@ const mixinForm = {
                 height => height > 0 || 'Ingrese una altura',
                 height => height <= 300 || 'Altura fuera de rango',
             ],
+            rulesWeight: [
+                height => height > 0 || 'Ingrese un peso',
+                height => height <= 250 || 'Peso fuera de rango',
+            ],
             rulesBloodType:[
                 (bloodType)=> bloodType.length > 0 || 'Debe elegir un cliente'
             ]
