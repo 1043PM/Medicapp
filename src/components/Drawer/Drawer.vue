@@ -45,20 +45,13 @@ export default {
         url: "/panel/reports"
       }
     ],
-    user: {
-      name: "Alex",
-      email: "Alex@gmail.com",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/220px-User_icon_2.svg.png"
-    }
+    user: {}
   }),
   methods: {
     logout() {
       this.$store
         .dispatch("logOut")
         .then(response => {
-          console.log(response);
-
           this.$store.commit("logOut");
 
           this.$router.push("/");
@@ -72,16 +65,15 @@ export default {
     bus.$on("notificationDrawer", () => {
       this.drawer = !this.drawer;
     });
-  },
-  mounted() {
-    this.user = this.$store.getters.getUser;
+    bus.$on("updateDrawerLogin", payload => {
 
-    this.user.image =
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/220px-User_icon_2.svg.png";
+      console.log("hola");
+      console.log(payload.user);
 
-    bus.$on("updateDrawerLogin", user => {
-      console.log(user);
-      this.user = user;
+      this.user = payload.user;
+
+      this.user.image =
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/220px-User_icon_2.svg.png";
     });
   }
 };

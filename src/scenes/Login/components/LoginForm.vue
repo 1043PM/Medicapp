@@ -50,8 +50,12 @@ export default {
 
             this.$store.commit('login', response)
 
-            bus.$emit("updateDrawerLogin", response.data.data)
-            this.$router.push('/panel')  
+            let payload = {
+              user: response.data.data
+            }
+
+            bus.$emit("updateDrawerLogin", payload);
+            this.$router.push('/panel/reports')  
             
                
         }).catch((error)=>{

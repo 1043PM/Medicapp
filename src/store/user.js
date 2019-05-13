@@ -47,7 +47,6 @@ const store = {
       return data;
     },
     async logOut({ commit }) {
-      console.log("hola");
       let headersAux = this.getters.getHeaders;
 
       let headers = {
