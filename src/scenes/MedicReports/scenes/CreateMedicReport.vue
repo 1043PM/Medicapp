@@ -11,7 +11,8 @@
         <v-select :items="customers" v-model="customer" label="Cliente" :rules="rulesCustomer"></v-select>
 
         <v-text-field v-model="pacientName" label="Nombre del paciente" :rules="rulesName"></v-text-field>
-
+        <v-btn small color="primary" class="mb-5" @click="showModal = !showModal">Agregar paciente</v-btn>     
+        <new-pacient-modal :showModal="showModal"/>   
         <p>Género</p>
         <v-radio-group v-model="gender">
           <v-radio v-for="gender in genders" :key="gender" :label="gender" :value="gender"></v-radio>
@@ -79,9 +80,11 @@
 
 <script>
 import { mixinForm } from "../../../mixins";
+import NewPacientModal from "../components/NewPacientModal.vue"
 import bus from "../../../bus";
 export default {
   mixins: [mixinForm],
+  components: {NewPacientModal},
   data() {
     return {
       title: "Nuevo reporte",
@@ -97,7 +100,8 @@ export default {
       weight: 0,
       BloodTypes: ["AB+", "AB-", "A+", "A-", "B+", "B-", "O+", "O-"],
       bloodType: "",
-      user: null
+      user: null,
+      showModal: false
     };
   },
   beforeMount(){
