@@ -8,6 +8,7 @@ import Panel from "./scenes/Common/Common.vue";
 import Home from './scenes/Home/Home.vue';
 import MedicReports from "./scenes/MedicReports/MedicReports.vue";
 import CreateMedicReport from "./scenes/MedicReports/scenes/CreateMedicReport";
+import EditMedicReport from "./scenes/MedicReports/scenes/EditMedicReport";
 
 const routes = [
   {
@@ -29,6 +30,11 @@ const routes = [
       {
         path: "createReport",
         component: CreateMedicReport
+      },
+      {
+        path: "/editReport/:id",
+        name: "editReport",
+        component: EditMedicReport
       }
     ]
   }

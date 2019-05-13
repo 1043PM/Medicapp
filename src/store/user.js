@@ -97,6 +97,17 @@ const store = {
       let data = await response;
       return data;
     },
+    async getReport({ commit }, idReport) {
+      let headers = this.getters.getHeaders;
+
+      let response = await axios.get(
+        "https://api-medicapp.herokuapp.com/reports/" + idReport,
+        headers
+      );
+
+      let data = await response;
+      return data;
+    },
     async createReport({ commit }, newReport) {
       let headers = this.getters.getHeaders;
 
@@ -104,6 +115,23 @@ const store = {
 
       let response = await axios.post(
         "https://api-medicapp.herokuapp.com/reports",
+        newReport,
+        headers
+      );
+
+      let data = await response;
+      return data;
+    },
+    async updateReport({ commit }, newReport) {
+      let headers = this.getters.getHeaders;
+
+      headers["Content-type"] = "application/json";
+
+      console.log(newReport.idReport);
+      console.log(newReport);
+
+      let response = await axios.put(
+        "https://api-medicapp.herokuapp.com/reports/" + newReport.idReport,
         newReport,
         headers
       );

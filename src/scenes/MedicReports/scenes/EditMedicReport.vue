@@ -67,7 +67,7 @@
     <v-card-actions class="mr-5 ml-5">
       <v-spacer></v-spacer>
       <v-btn
-        @click="createUser"
+        @click="updateUser"
         :loading="loadingForm"
         :disabled="!valid"
         color="primary"
@@ -84,7 +84,7 @@ export default {
   mixins: [mixinForm],
   data() {
     return {
-      title: "Nuevo reporte",
+      title: "Editar reporte",
       error: "",
       text: "Ingrese los siguientes campos",
       customers: ["Cliente A", "Cliente B", "Cliente C"],
@@ -97,15 +97,40 @@ export default {
       weight: 0,
       BloodTypes: ["AB+", "AB-", "A+", "A-", "B+", "B-", "O+", "O-"],
       bloodType: "",
-      user: null
+      pacient_id: null,
+      user: null,
+      idReport: null
     };
   },
-  beforeMount(){
+  beforeMount() {
     this.user = this.$store.getters.getUser;
+    this.idReport = this.$route.params.id;
+
+    this.$store
+      .dispatch("getReport", this.idReport)
+      .then(response => {
+        console.log(response);
+
+        let report = response.data;
+
+        this.pacientName = report.name
+        this.date = report.date
+        this.user.name = report.created_by
+        this.gender = report.gender
+        this.birthdate = report.birthdate
+        this.height = report.height
+        this.weight = report.weight
+        this.bloodType = report.bloodtype
+      })
+      .catch(error => {
+        this.loadingForm = false;
+        this.error = error;
+      });
   },
   methods: {
-    createUser() {
+    updateUser() {
       let newReport = {
+        idReport: this.idReport,
         name: this.pacientName,
         date: new Date().toISOString().substr(0, 10),
         created_by: this.user.name,
@@ -113,21 +138,19 @@ export default {
         birthdate: this.birthdate,
         height: this.height,
         weight: this.weight,
-        bloodtype: this.bloodType,
-        pacient_id: "1"
+        bloodtype: this.bloodType
       };
 
       console.log(newReport);
 
       this.loadingForm = true;
       this.$store
-        .dispatch("createReport", newReport)
+        .dispatch("updateReport", newReport)
         .then((response) => {
           this.loadingForm = false;
           console.log(response);
 
-          this.$router.push('/panel/reports')
-
+          this.$router.push("/panel/reports");
         })
         .catch(error => {
           this.loadingForm = false;
