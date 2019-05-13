@@ -18,7 +18,7 @@ export default {
     let user = this.$store.getters.getUser;
 
     if (user != null) {
-      this.$router.push({ path: "/panel" });
+      this.$router.push({ path: "/panel/reports" });
     } else {
       this.$router.push({ path: "/" });
     }

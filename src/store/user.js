@@ -28,6 +28,9 @@ const store = {
           Uid: headers["uid"]
         })
       );
+    },
+    logOut(state) {
+      localStorage.clear();
     }
   },
   actions: {
@@ -43,15 +46,27 @@ const store = {
       let data = await response;
       return data;
     },
-    logOut({ commit }) {
-      return new Promise((resolve, reject) => {
-        signOut()
-          .then(() => {
-            commit("login", null);
-            resolve();
-          })
-          .catch(error => reject(error));
-      });
+    async logOut({ commit }) {
+      console.log("hola");
+      let headersAux = this.getters.getHeaders;
+
+      let headers = {
+        "access-token": headersAux["Access-Token"],
+        "token-type": headersAux["Token-Type"],
+        "client": headersAux["Client"],
+        "uid": headersAux["Uid"]
+      };
+      /*
+      console.log(headers);
+      
+      let response = await axios.delete(
+        "https://api-medicapp.herokuapp.com/auth/sign_out",
+        headers
+      );
+
+      let data = await response;
+      /*/
+      return 5;
     },
     async createUser({ commit }, newUser) {
       let body = {
@@ -72,22 +87,14 @@ const store = {
       return data;
     },
     async getReports({ commit }) {
-      console.log("hola");
-      let response = await fetch(
-        `https://api-medicapp.herokuapp.com//doctors/8`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Token": "cZ_5lhpClGl_rL7Ke4ALew",
-            "Token-Type": "Bearer",
-            Client: "iP7srBZ_j7TfUWMp8pF75g",
-            Expiry: 1558644369,
-            Uid: "marcostarr1940@gmail.com"
-          }
-        }
+      let headers = this.getters.getHeaders;
+
+      let response = await axios.get(
+        "https://api-medicapp.herokuapp.com/reports",
+        headers
       );
-      let data = await response.json();
+
+      let data = await response;
       return data;
     },
     createReport({ commit }, newreport) {

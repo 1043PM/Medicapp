@@ -9,12 +9,12 @@
       <v-card>
         <v-card-title
           class="headline"
-        >¿Esta usted seguro que quiere borrar este registro con folio {{folio}}?</v-card-title>
+        >¿Esta usted seguro que quiere borrar este registro con folio {{id}}?</v-card-title>
         <v-card-text>Esta acción no podrá ser revertida.</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="green darken-1" flat @click="closeDialog()">Close</v-btn>
-          <v-btn color="red darken-1" flat @click="deleteRegister(folio)">Delete</v-btn>
+          <v-btn color="red darken-1" flat @click="deleteRegister(id)">Delete</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -24,7 +24,7 @@
 <script>
 export default {
   props: {
-    folio: String,
+    id: Number,
     onDelete: Function
   },
   data() {
@@ -36,10 +36,10 @@ export default {
     closeDialog() {
       this.dialog = false;
     },
-    deleteRegister(folio) {
+    deleteRegister(id) {
       this.closeDialog();
       //Implement web service to delete a register
-      this.onDelete(folio);
+      this.onDelete(id);
     }
   }
 };

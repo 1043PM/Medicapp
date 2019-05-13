@@ -53,7 +53,20 @@ export default {
     }
   }),
   methods: {
-    logout() {}
+    logout() {
+      this.$store
+        .dispatch("logOut")
+        .then(response => {
+          console.log(response);
+
+          this.$store.commit("logOut");
+
+          this.$router.push("/");
+        })
+        .catch(error => {
+          this.error = error;
+        });
+    }
   },
   beforeMount() {
     bus.$on("notificationDrawer", () => {

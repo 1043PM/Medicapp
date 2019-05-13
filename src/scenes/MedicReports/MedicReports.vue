@@ -38,10 +38,10 @@
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.date }}</td>
         <td>
-          <EditButton v-bind:folio="props.item.id"/>
+          <EditButton v-bind:id="props.item.id"/>
         </td>
         <td>
-          <DeleteButton v-bind:folio="props.item.id" v-bind:onDelete="deleteReport"/>
+          <DeleteButton v-bind:id="props.item.id" v-bind:onDelete="deleteReport"/>
         </td>
         <td>
           <DownloadButton v-bind:report="props.item" v-bind:downloadReport="downloadReport"/>
@@ -95,23 +95,7 @@ export default {
         { text: "Eliminar", sortable: false },
         { text: "Descargar", sortable: false }
       ],
-      reports: [
-        {
-          folio: "0001",
-          name: "Alejandro",
-          date: "10/03/19"
-        },
-        {
-          folio: "0002",
-          name: "Alejandro2",
-          date: "12/03/19"
-        },
-        {
-          folio: "0003",
-          name: "Alejandro3",
-          date: "13/03/19"
-        }
-      ],
+      reports: [],
       snackbar: {
         show: false,
         color: "success",
@@ -126,11 +110,7 @@ export default {
     this.$store
       .dispatch("getReports")
       .then(reports => {
-
-        console.log(reports);
-
-        this.reports = reports;
-
+        this.reports = reports.data;
       })
       .catch(error => {
         this.error = error;
@@ -143,16 +123,16 @@ export default {
     deleteAllReports() {
       this.selected.forEach(selected => {
         this.reports.splice(
-          this.reports.findIndex(report => report.folio === selected.folio),
+          this.reports.findIndex(report => report.id === selected.id),
           1
         );
       });
       this.snackbar.text = "Los reportes se borraron con éxito.";
       this.snackbar.show = true;
     },
-    deleteReport(folioToDelete) {
+    deleteReport(idToDelete) {
       this.reports.splice(
-        this.reports.findIndex(report => report.folio === folioToDelete),
+        this.reports.findIndex(report => report.id === idToDelete),
         1
       );
       this.snackbar.text = "El reporte se borro con éxito.";

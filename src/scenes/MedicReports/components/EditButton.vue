@@ -8,7 +8,7 @@
 <script>
 export default {
   props: {
-    folio: String
+    id: Number
   },
   data: () => ({})
 };
