@@ -127,12 +127,22 @@ const store = {
 
       headers["Content-type"] = "application/json";
 
-      console.log(newReport.idReport);
-      console.log(newReport);
-
       let response = await axios.put(
         "https://api-medicapp.herokuapp.com/reports/" + newReport.idReport,
         newReport,
+        headers
+      );
+
+      let data = await response;
+      return data;
+    },
+    async deleteReport({ commit }, idReport) {
+      let headers = this.getters.getHeaders;
+
+      headers["Content-type"] = "application/json";
+
+      let response = await axios.delete(
+        "https://api-medicapp.herokuapp.com/reports/" + idReport,
         headers
       );
 

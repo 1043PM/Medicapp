@@ -131,12 +131,19 @@ export default {
       this.snackbar.show = true;
     },
     deleteReport(idToDelete) {
-      this.reports.splice(
-        this.reports.findIndex(report => report.id === idToDelete),
-        1
-      );
-      this.snackbar.text = "El reporte se borro con éxito.";
-      this.snackbar.show = true;
+      this.$store
+        .dispatch("deleteReport", idToDelete)
+        .then(response => {
+          this.reports.splice(
+            this.reports.findIndex(report => report.id === idToDelete),
+            1
+          );
+          this.snackbar.text = "El reporte se borro con éxito.";
+          this.snackbar.show = true;
+        })
+        .catch(error => {
+          this.error = error;
+        });
     },
     downloadReport(report) {
       //TODO: How to generate a report and download it.
