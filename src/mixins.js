@@ -20,8 +20,8 @@ const mixinForm = {
             repitPasswordRules:[
                 (repitPassword) => this.password === repitPassword || 'Las contraseñas deben coincidir'
             ],
-            rulesCustomer: [
-                (customer)=> customer.length > 0 || 'Debe elegir un cliente'   
+            rulesPacient: [
+                (pacient)=> pacient > 0 || 'Debe elegir un paciente.'   
             ],
             rulesHeight: [
                 height => height > 0 || 'Ingrese una altura',

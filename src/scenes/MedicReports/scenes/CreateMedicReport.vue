@@ -8,9 +8,14 @@
       {{text}}
       <v-alert color="red" v-show="Boolean(error)">{{error}}</v-alert>
       <v-form v-model="valid">
-        <v-select :items="customers" v-model="customer" label="Cliente" :rules="rulesCustomer"></v-select>
-
-        <v-text-field v-model="pacientName" label="Nombre del paciente" :rules="rulesName"></v-text-field>
+        <v-select
+          :items="pacients"
+          item-text="name"
+          item-value="id"
+          v-model="pacientId"
+          label="Paciente"
+          :rules="rulesPacient"
+        ></v-select>
 
         <p>Género</p>
         <v-radio-group v-model="gender">
@@ -87,9 +92,8 @@ export default {
       title: "Nuevo reporte",
       error: "",
       text: "Ingrese los siguientes campos",
-      customers: ["Cliente A", "Cliente B", "Cliente C"],
-      customer: "",
-      pacientName: "",
+      pacients: [],
+      pacientId: 0,
       genders: ["Masculino", "Femenino"],
       gender: "Masculino",
       birthdate: new Date().toISOString().substr(0, 10),
@@ -100,13 +104,36 @@ export default {
       user: null
     };
   },
-  beforeMount(){
+  beforeMount() {
     this.user = this.$store.getters.getUser;
+
+    this.$store
+      .dispatch("getPacients")
+      .then(response => {
+        let pacients = response.data;
+        pacients.forEach(element => {
+          let pacient = {
+            id: element.id,
+            name: element.name + " " + element.lastname
+          };
+
+          this.pacients.push(pacient);
+        });
+      })
+      .catch(error => {
+        this.error = error;
+      });
   },
   methods: {
     createUser() {
+      console.log(this.pacientId);
+
+      var pacient = this.pacients.find(pacient => {
+        return pacient.id === this.pacientId;
+      });
+
       let newReport = {
-        name: this.pacientName,
+        name: pacient.name,
         date: new Date().toISOString().substr(0, 10),
         created_by: this.user.name,
         gender: this.gender,
@@ -114,7 +141,7 @@ export default {
         height: this.height,
         weight: this.weight,
         bloodtype: this.bloodType,
-        pacient_id: "1"
+        pacient_id: pacient.id
       };
 
       console.log(newReport);
@@ -122,17 +149,19 @@ export default {
       this.loadingForm = true;
       this.$store
         .dispatch("createReport", newReport)
-        .then((response) => {
+        .then(response => {
           this.loadingForm = false;
           console.log(response);
 
-          this.$router.push('/panel/reports')
-
+          this.$router.push("/panel/reports");
         })
         .catch(error => {
           this.loadingForm = false;
           this.error = error;
         });
+    },
+    selectId(e) {
+      this.selectedId = e.id;
     }
   }
 };
