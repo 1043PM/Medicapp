@@ -13,8 +13,8 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat small color="error" @click="dialog = false">Cancelar</v-btn>
-          <v-btn color="primary" flat @click="dialog = false">Agregar</v-btn>
+          <v-btn flat small color="error" @click="showModal = false">Cancelar</v-btn>
+          <v-btn color="primary" flat @click="sendUser">Agregar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -31,12 +31,38 @@ export default {
         company_id: "",
         doctor_id: ""
       },
-      companies:[]
+      companies:[],
+      error:{}
     };
   },
   props: ["showModal"],
   beforeMount(){
-      
+      /*this.$store
+        .dispatch("getUsers")
+        .then(response => {
+          
+        })
+        .catch(error => {          
+          this.error = error;
+        });*/
+        this.companies=[
+            'Google',
+            'Amazon',
+            'Slack'
+        ]
+  },
+  methods:{
+      sendUser(){
+        showModal = false;
+        /*this.$store
+        .dispatch("addPacient", this.pacient)
+        .then(response => {
+            showModal = false
+        })
+        .catch(error => {          
+          this.error = error;
+        });*/
+      }
   }
 };
 </script>

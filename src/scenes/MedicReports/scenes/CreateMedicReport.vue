@@ -157,9 +157,7 @@ export default {
         .dispatch("createReport", newReport)
         .then(response => {
           this.loadingForm = false;
-          console.log(response);
-
-          this.$router.push("/panel/reports");
+          console.log(response);          
         })
         .catch(error => {
           this.loadingForm = false;
