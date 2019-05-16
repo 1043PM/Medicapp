@@ -44,7 +44,7 @@
           <DeleteButton v-bind:id="props.item.id" v-bind:onDelete="deleteReport"/>
         </td>
         <td>
-          <DownloadButton v-bind:report="props.item" v-bind:downloadReport="downloadReport"/>
+          <DownloadButton v-bind:reportId="props.item.id" v-bind:downloadReport="downloadReport"/>
         </td>
       </template>
       <template v-slot:no-results>
@@ -74,6 +74,9 @@ import DownloadAllButton from "./components/DownloadAllButton";
 import EditButton from "./components/EditButton";
 import DeleteButton from "./components/DeleteButton";
 import DownloadButton from "./components/DownloadButton";
+
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 export default {
   components: {
@@ -161,7 +164,56 @@ export default {
         });
     },
     downloadReport(report) {
-      //TODO: How to generate a report and download it.
+      let pdfColumns = [
+        {
+          title: "Nombre del paciente",
+          description: report.name
+        },
+        {
+          title: "Género",
+          description: report.gender
+        },
+
+        {
+          title: "Fecha de nacimiento",
+          description: report.birthdate
+        },
+
+        {
+          title: "Altura en cm",
+          description: report.height
+        },
+
+        {
+          title: "Peso en kg",
+          description: report.weight
+        },
+
+        {
+          title: "Tipo de sangre",
+          description: report.bloodtype
+        },
+        {
+          title: "Fecha de creación del reporte",
+          description: report.date
+        },
+        {
+          title: "Médico encargado",
+          description: report.created_by
+        }
+      ];
+
+      let columns = [
+        { title: "Campo", dataKey: "title" },
+        { title: "Resultado", dataKey: "description" }
+      ];
+
+      var doc = new jsPDF("p", "pt");
+
+      doc.autoTable(columns, pdfColumns);
+
+      doc.text("Reporte medico de " + report.name, 40, 30);
+      doc.save("Reporte-" + report.name + ".pdf");
     },
     downloadAllReports(reports) {
       //TODO: How to generate all reports, maybe compress on a .zip and download it.
