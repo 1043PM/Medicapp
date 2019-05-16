@@ -1,13 +1,17 @@
 <template>
   <v-layout>
-    <v-btn v-show="selected.length >= 1" color="info" @click="downloadAllReports()">Descargar seleccionados</v-btn>
+    <v-btn
+      v-show="reportsSelected.length >= 1"
+      color="info"
+      @click="downloadAllReports()"
+    >Descargar seleccionados</v-btn>
   </v-layout>
 </template>
 
 <script>
 export default {
   props: {
-    selected: Array,
+    reportsSelected: Array,
     downloadAll: Function
   },
   data() {
@@ -15,7 +19,27 @@ export default {
   },
   methods: {
     downloadAllReports() {
-      this.downloadAll(this.selected);
+      let promises = [];
+      let reports = [];
+
+      this.reportsSelected.forEach((report, index) => {
+        promises.push(
+          this.$store
+            .dispatch("getReport", report.id)
+            .then(response => {
+              let report = response.data;
+
+              reports.push(report);
+            })
+            .catch(error => {
+              this.error = error;
+            })
+        );
+      });
+
+      Promise.all(promises).then(() => {
+        this.downloadAll(reports);
+      });
     }
   }
 };
