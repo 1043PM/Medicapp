@@ -131,7 +131,7 @@ export default {
   },
   methods: {
     createUser() {
-      console.log(this.pacientId);
+     
 
       var pacient = this.pacients.find(pacient => {
         return pacient.id === this.pacientId;

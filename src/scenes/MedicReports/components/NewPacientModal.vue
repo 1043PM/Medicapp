@@ -63,6 +63,7 @@ export default {
         .dispatch("addPacient", this.pacient)
         .then(response => {
             this.showModal = false;
+            this.pacient = {}
         })
         .catch(error => {          
           this.error = error;
