@@ -134,7 +134,7 @@ export default {
         let report = response.data;
 
         this.date = report.date;
-        this.pacientId = 3;
+        this.pacientId = report.pacient.id;
         this.user.name = report.created_by;
         this.gender = report.gender;
         this.birthdate = report.birthdate;

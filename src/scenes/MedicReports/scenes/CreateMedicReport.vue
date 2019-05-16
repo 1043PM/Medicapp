@@ -18,7 +18,7 @@
         ></v-select>
 
         <v-btn small color="primary" class="mb-5" @click="showModal = !showModal">Agregar paciente</v-btn>     
-        <new-pacient-modal :showModal="showModal"/>   
+        <new-pacient-modal :showModal="showModal" :closeModal="closeModal"/>   
         <p>Género</p>
         <v-radio-group v-model="gender">
           <v-radio v-for="gender in genders" :key="gender" :label="gender" :value="gender"></v-radio>
@@ -130,6 +130,9 @@ export default {
       });
   },
   methods: {
+    closeModal(){
+      this.showModal = !this.showModal
+    },
     createUser() {
       console.log(this.pacientId);
 

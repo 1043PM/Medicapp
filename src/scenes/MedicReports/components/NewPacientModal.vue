@@ -14,7 +14,7 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat small color="error" @click="showModal = false">Cancelar</v-btn>
+          <v-btn flat small color="error" @click="closeModala">Cancelar</v-btn>
           <v-btn color="primary" flat @click="sendUser">Agregar</v-btn>
         </v-card-actions>
       </v-card>
@@ -36,7 +36,7 @@ export default {
       error:{}
     };
   },
-  props: ["showModal"],
+  props: ["showModal", "closeModal"],
   beforeMount(){
       this.$store
         .dispatch("getUsers")
@@ -55,6 +55,9 @@ export default {
         ]
   },
   methods:{
+      closeModala(){
+        this.closeModal()
+      },
       sendUser(){      
         let user = this.$store.getters.getUser;        
         this.pacient.doctor_id = user.id;
@@ -63,6 +66,8 @@ export default {
         .dispatch("addPacient", this.pacient)
         .then(response => {
             this.showModal = false;
+            this.pacient = {};
+            this.closeModala()
         })
         .catch(error => {          
           this.error = error;
