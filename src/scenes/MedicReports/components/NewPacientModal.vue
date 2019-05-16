@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
   <div class="text-xs-center">
     <v-dialog v-model="showModal" width="500">
@@ -7,7 +8,7 @@
           <v-form>
             <v-text-field v-model="pacient.name" :counter="20" label="First name" required></v-text-field>
             <v-text-field v-model="pacient.lastname" :counter="20" label="Last name" required></v-text-field>
-            <v-select :items="companies" label="Company"></v-select>
+            <v-select :items="companies" label="Company" @change="setAnswer" item-value="companies" item-text="company"  single-line></v-select>
           </v-form>
         </v-card-text>
         <v-divider></v-divider>
@@ -37,31 +38,42 @@ export default {
   },
   props: ["showModal"],
   beforeMount(){
-      /*this.$store
+      this.$store
         .dispatch("getUsers")
         .then(response => {
-          
+          response.data.forEach(element => {
+            if(element.role == "company"){
+              this.companies.push(element);
+            }
+          });
         })
         .catch(error => {          
           this.error = error;
-        });*/
-        this.companies=[
-            'Google',
-            'Amazon',
-            'Slack'
+        });        
+        this.companies = [
+          'TEST'
         ]
   },
   methods:{
-      sendUser(){
-        showModal = false;
-        /*this.$store
+      sendUser(){      
+        let user = this.$store.getters.getUser;        
+        this.pacient.doctor_id = user.id;
+        console.log(this.pacient)
+        this.$store
         .dispatch("addPacient", this.pacient)
         .then(response => {
-            showModal = false
+            this.showModal = false;
         })
         .catch(error => {          
           this.error = error;
-        });*/
+        });
+      },
+      setAnswer(company) {
+        this.companies.forEach(element =>{
+          if(element.company == company){
+            this.pacient.company_id = element.id;
+          }
+        });
       }
   }
 };
