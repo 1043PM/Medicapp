@@ -25,7 +25,6 @@ export default {
           this.downloadReport(report);
         })
         .catch(error => {
-          this.loadingForm = false;
           this.error = error;
         });
     }

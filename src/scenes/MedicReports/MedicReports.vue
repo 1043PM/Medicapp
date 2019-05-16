@@ -9,7 +9,7 @@
     </v-card-title>
     <v-card-title>
       <DeleteAllButton v-bind:selected="selected" v-bind:deleteAll="deleteAllReports"/>
-      <DownloadAllButton v-bind:selected="selected" v-bind:downloadAll="downloadAllReports"/>
+      <DownloadAllButton v-bind:reportsSelected="selected" v-bind:downloadAll="downloadAllReports"/>
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -77,6 +77,9 @@ import DownloadButton from "./components/DownloadButton";
 
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+
+import JSZip from "jszip";
+import saveAs from "file-saver";
 
 export default {
   components: {
@@ -163,14 +166,15 @@ export default {
           this.error = error;
         });
     },
-    downloadReport(report) {
+
+    createReport(report) {
       let pdfColumns = [
         {
           title: "Nombre del paciente",
           description: report.name
         },
         {
-          title: "Género",
+          title: "Genero",
           description: report.gender
         },
 
@@ -194,11 +198,11 @@ export default {
           description: report.bloodtype
         },
         {
-          title: "Fecha de creación del reporte",
+          title: "Fecha de creacion del reporte",
           description: report.date
         },
         {
-          title: "Médico encargado",
+          title: "Medico encargado",
           description: report.created_by
         }
       ];
@@ -213,11 +217,30 @@ export default {
       doc.autoTable(columns, pdfColumns);
 
       doc.text("Reporte medico de " + report.name, 40, 30);
-      doc.save("Reporte-" + report.name + ".pdf");
+
+      return doc;
+    },
+
+    downloadReport(report) {
+      let reportPDF = this.createReport(report);
+      reportPDF.save("Reporte-" + report.name + ".pdf");
     },
     downloadAllReports(reports) {
-      //TODO: How to generate all reports, maybe compress on a .zip and download it.
-      console.log(reports);
+      let zip = new JSZip();
+
+      let reportPDF = null;
+
+      for (let i = 0; i < this.selected.length; i++) {
+        reportPDF = this.createReport(reports[i]);
+        zip.file(
+          reports[i].id + "-Reporte-" + reports[i].name + ".pdf",
+          reportPDF.output()
+        );
+      }
+
+      zip.generateAsync({ type: "blob" }).then(function(content) {
+        saveAs(content, "Reportes.zip");
+      });
     }
   }
 };
