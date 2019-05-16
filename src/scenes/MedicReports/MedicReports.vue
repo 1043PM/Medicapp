@@ -9,7 +9,7 @@
     </v-card-title>
     <v-card-title>
       <DeleteAllButton v-bind:selected="selected" v-bind:deleteAll="deleteAllReports"/>
-      <DownloadAllButton v-bind:selected="selected" v-bind:downloadAll="downloadAllReports"/>
+      <DownloadAllButton v-bind:reportsSelected="selected" v-bind:downloadAll="downloadAllReports"/>
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -44,7 +44,7 @@
           <DeleteButton v-bind:id="props.item.id" v-bind:onDelete="deleteReport"/>
         </td>
         <td>
-          <DownloadButton v-bind:report="props.item" v-bind:downloadReport="downloadReport"/>
+          <DownloadButton v-bind:reportId="props.item.id" v-bind:downloadReport="downloadReport"/>
         </td>
       </template>
       <template v-slot:no-results>
@@ -74,6 +74,12 @@ import DownloadAllButton from "./components/DownloadAllButton";
 import EditButton from "./components/EditButton";
 import DeleteButton from "./components/DeleteButton";
 import DownloadButton from "./components/DownloadButton";
+
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+
+import JSZip from "jszip";
+import saveAs from "file-saver";
 
 export default {
   components: {
@@ -160,12 +166,81 @@ export default {
           this.error = error;
         });
     },
+
+    createReport(report) {
+      let pdfColumns = [
+        {
+          title: "Nombre del paciente",
+          description: report.name
+        },
+        {
+          title: "Genero",
+          description: report.gender
+        },
+
+        {
+          title: "Fecha de nacimiento",
+          description: report.birthdate
+        },
+
+        {
+          title: "Altura en cm",
+          description: report.height
+        },
+
+        {
+          title: "Peso en kg",
+          description: report.weight
+        },
+
+        {
+          title: "Tipo de sangre",
+          description: report.bloodtype
+        },
+        {
+          title: "Fecha de creacion del reporte",
+          description: report.date
+        },
+        {
+          title: "Medico encargado",
+          description: report.created_by
+        }
+      ];
+
+      let columns = [
+        { title: "Campo", dataKey: "title" },
+        { title: "Resultado", dataKey: "description" }
+      ];
+
+      var doc = new jsPDF("p", "pt");
+
+      doc.autoTable(columns, pdfColumns);
+
+      doc.text("Reporte medico de " + report.name, 40, 30);
+
+      return doc;
+    },
+
     downloadReport(report) {
-      //TODO: How to generate a report and download it.
+      let reportPDF = this.createReport(report);
+      reportPDF.save("Reporte-" + report.name + ".pdf");
     },
     downloadAllReports(reports) {
-      //TODO: How to generate all reports, maybe compress on a .zip and download it.
-      console.log(reports);
+      let zip = new JSZip();
+
+      let reportPDF = null;
+
+      for (let i = 0; i < this.selected.length; i++) {
+        reportPDF = this.createReport(reports[i]);
+        zip.file(
+          reports[i].id + "-Reporte-" + reports[i].name + ".pdf",
+          reportPDF.output()
+        );
+      }
+
+      zip.generateAsync({ type: "blob" }).then(function(content) {
+        saveAs(content, "Reportes.zip");
+      });
     }
   }
 };

@@ -9,7 +9,7 @@
 <script>
 export default {
   props: {
-    report: null,
+    reportId: Number,
     downloadReport: Function
   },
   data() {
@@ -17,7 +17,16 @@ export default {
   },
   methods: {
     download() {
-      this.downloadReport(this.report);
+      this.$store
+        .dispatch("getReport", this.reportId)
+        .then(response => {
+          let report = response.data;
+
+          this.downloadReport(report);
+        })
+        .catch(error => {
+          this.error = error;
+        });
     }
   }
 };

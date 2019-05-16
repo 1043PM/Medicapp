@@ -17,7 +17,6 @@
           :rules="rulesPacient"
         ></v-select>
 
-        <v-text-field v-model="pacientName" label="Nombre del paciente" :rules="rulesName"></v-text-field>
         <v-btn small color="primary" class="mb-5" @click="showModal = !showModal">Agregar paciente</v-btn>     
         <new-pacient-modal :showModal="showModal"/>   
         <p>Género</p>
@@ -157,7 +156,8 @@ export default {
         .dispatch("createReport", newReport)
         .then(response => {
           this.loadingForm = false;
-          console.log(response);          
+          console.log(response);    
+           this.$router.push({ path: "/panel/reports" });     
         })
         .catch(error => {
           this.loadingForm = false;

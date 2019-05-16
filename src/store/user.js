@@ -159,11 +159,22 @@ const store = {
       let data = await response;
       return data;
     },
+    async getPacients({ commit }) {
+      let headers = this.getters.getHeaders;
+
+      let response = await axios.get(
+        "https://api-medicapp.herokuapp.com/pacients",
+        headers
+      );
+
+      let data = await response;
+      return data;
+    },
     async addPacient({ commit }, newPacient) {
       //let headers = this.getters.getHeaders;
       let response = await axios.post(
-        "https://api-medicapp.herokuapp.com/pacients"  ,
-        newPacient      
+        "https://api-medicapp.herokuapp.com/pacients",
+        newPacient        
       );
 
       let data = await response;
