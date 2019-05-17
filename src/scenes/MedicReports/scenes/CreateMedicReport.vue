@@ -17,9 +17,8 @@
           :rules="rulesPacient"
         ></v-select>
 
-        <v-text-field v-model="pacientName" label="Nombre del paciente" :rules="rulesName"></v-text-field>
         <v-btn small color="primary" class="mb-5" @click="showModal = !showModal">Agregar paciente</v-btn>     
-        <new-pacient-modal :showModal="showModal"/>   
+        <new-pacient-modal :showModal="showModal" :closeModal="closeModal"/>   
         <p>Género</p>
         <v-radio-group v-model="gender">
           <v-radio v-for="gender in genders" :key="gender" :label="gender" :value="gender"></v-radio>
@@ -131,6 +130,9 @@ export default {
       });
   },
   methods: {
+    closeModal(){
+      this.showModal = !this.showModal
+    },
     createUser() {
       console.log(this.pacientId);
 
@@ -157,7 +159,8 @@ export default {
         .dispatch("createReport", newReport)
         .then(response => {
           this.loadingForm = false;
-          console.log(response);          
+          console.log(response);    
+           this.$router.push({ path: "/panel/reports" });     
         })
         .catch(error => {
           this.loadingForm = false;
